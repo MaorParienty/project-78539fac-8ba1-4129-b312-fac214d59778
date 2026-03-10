@@ -13,6 +13,8 @@ export const t = {
     budgets: "תקציבים",
     analytics: "ניתוח",
     settings: "הגדרות",
+    aiAssistant: "יועץ AI",
+    weeklyReports: "דוחות שבועיים",
   },
 
   // Dashboard
@@ -116,6 +118,28 @@ export const t = {
 
   // Common
   toggleTheme: "החלף ערכת נושא",
+
+  // AI
+  ai: {
+    title: "יועץ פיננסי AI",
+    subtitle: "שאל שאלות על הנתונים הפיננסיים שלך",
+    welcome: "שלום! אני היועץ הפיננסי שלך",
+    welcomeDesc: "אני יכול לנתח את הנתונים שלך, לזהות דפוסי הוצאות, ולעזור לך לקבל החלטות פיננסיות חכמות יותר.",
+    inputPlaceholder: "שאל שאלה על הפיננסים שלך...",
+    insightsTitle: "תובנות AI",
+    refresh: "רענן",
+    analyzing: "מנתח...",
+    noInsights: "אין תובנות כרגע",
+    weeklyTitle: "דוחות שבועיים",
+    weeklySubtitle: "סיכום AI של הפעילות הפיננסית שלך",
+    generateReport: "צור דוח",
+    regenerate: "צור מחדש",
+    generating: "מייצר...",
+    generatingReport: "מייצר דוח שבועי מותאם אישית...",
+    noReportYet: "עדיין אין דוח שבועי",
+    noReportDesc: "לחץ על הכפתור למטה כדי ליצור דוח שבועי מותאם אישית המבוסס על הנתונים הפיננסיים שלך.",
+    weeklyInsightsTitle: "תובנות שבועיות",
+  },
 };
 
 // Format currency in ILS

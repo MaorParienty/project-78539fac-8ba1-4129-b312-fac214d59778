@@ -4,6 +4,7 @@ import { ExpensePieChart } from "@/components/dashboard/ExpensePieChart";
 import { IncomeExpenseChart } from "@/components/dashboard/IncomeExpenseChart";
 import { RecentTransactions } from "@/components/dashboard/RecentTransactions";
 import { UpcomingPayments } from "@/components/dashboard/UpcomingPayments";
+import { AIInsightsCard } from "@/components/dashboard/AIInsightsCard";
 import { t, hebrewMonths } from "@/lib/i18n";
 
 const Dashboard = () => {
@@ -27,6 +28,8 @@ const Dashboard = () => {
       </div>
 
       <SummaryCards balance={balance} totalIncome={totalIncome} totalExpenses={totalExpenses} remaining={remaining} />
+
+      <AIInsightsCard />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <IncomeExpenseChart transactions={transactions} />
