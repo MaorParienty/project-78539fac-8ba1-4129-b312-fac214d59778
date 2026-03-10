@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
+import { t } from "@/lib/i18n";
 import {
   Sidebar,
   SidebarContent,
@@ -20,12 +21,12 @@ import {
 } from "@/components/ui/sidebar";
 
 const items = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Transactions", url: "/transactions", icon: ArrowLeftRight },
-  { title: "Payments", url: "/payments", icon: CreditCard },
-  { title: "Budgets", url: "/budgets", icon: Target },
-  { title: "Analytics", url: "/analytics", icon: BarChart3 },
-  { title: "Settings", url: "/settings", icon: Settings },
+  { title: t.nav.dashboard, url: "/", icon: LayoutDashboard },
+  { title: t.nav.transactions, url: "/transactions", icon: ArrowLeftRight },
+  { title: t.nav.payments, url: "/payments", icon: CreditCard },
+  { title: t.nav.budgets, url: "/budgets", icon: Target },
+  { title: t.nav.analytics, url: "/analytics", icon: BarChart3 },
+  { title: t.nav.settings, url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -34,16 +35,16 @@ export function AppSidebar() {
   const location = useLocation();
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-border">
+    <Sidebar collapsible="icon" side="right" className="border-s border-border">
       <SidebarContent className="pt-6">
         <div className="px-4 mb-8">
           {!collapsed ? (
             <h1 className="font-heading text-lg font-semibold tracking-tight text-foreground">
-              <span className="text-primary">Kanso</span>
-              <span className="text-muted-foreground font-normal ml-1">Finance</span>
+              <span className="text-primary">{t.appName}</span>
+              <span className="text-muted-foreground font-normal me-1">{t.appSubtitle}</span>
             </h1>
           ) : (
-            <span className="text-primary font-heading font-bold text-xl block text-center">K</span>
+            <span className="text-primary font-heading font-bold text-xl block text-center">ק</span>
           )}
         </div>
         <SidebarGroup>
@@ -60,7 +61,7 @@ export function AppSidebar() {
                         className="hover:bg-accent/50 transition-colors"
                         activeClassName="bg-accent text-primary font-medium"
                       >
-                        <item.icon className="mr-3 h-4 w-4 shrink-0" />
+                        <item.icon className="ms-0 me-3 h-4 w-4 shrink-0" />
                         {!collapsed && <span>{item.title}</span>}
                       </NavLink>
                     </SidebarMenuButton>

@@ -34,30 +34,30 @@ export interface Budget {
 const CATEGORIES = ["Food", "Housing", "Transportation", "Entertainment", "Utilities", "Health", "Shopping", "Salary", "Freelance", "Investment", "Other"];
 
 const sampleTransactions: Transaction[] = [
-  { id: "1", type: "income", amount: 5200, category: "Salary", date: "2026-03-01", notes: "Monthly salary", currency: "USD" },
-  { id: "2", type: "expense", amount: 1400, category: "Housing", date: "2026-03-01", notes: "Rent", currency: "USD" },
-  { id: "3", type: "expense", amount: 85, category: "Food", date: "2026-03-02", notes: "Groceries", currency: "USD" },
-  { id: "4", type: "expense", amount: 120, category: "Utilities", date: "2026-03-03", notes: "Electricity bill", currency: "USD" },
-  { id: "5", type: "expense", amount: 45, category: "Transportation", date: "2026-03-04", notes: "Gas", currency: "USD" },
-  { id: "6", type: "expense", amount: 65, category: "Entertainment", date: "2026-03-05", notes: "Streaming + dinner out", currency: "USD" },
-  { id: "7", type: "income", amount: 800, category: "Freelance", date: "2026-03-06", notes: "Design project", currency: "USD" },
-  { id: "8", type: "expense", amount: 210, category: "Shopping", date: "2026-03-07", notes: "New shoes", currency: "USD" },
-  { id: "9", type: "expense", amount: 55, category: "Health", date: "2026-03-08", notes: "Pharmacy", currency: "USD" },
-  { id: "10", type: "expense", amount: 38, category: "Food", date: "2026-03-09", notes: "Takeout", currency: "USD" },
+  { id: "1", type: "income", amount: 18500, category: "Salary", date: "2026-03-01", notes: "משכורת חודשית", currency: "ILS" },
+  { id: "2", type: "expense", amount: 4800, category: "Housing", date: "2026-03-01", notes: "שכר דירה", currency: "ILS" },
+  { id: "3", type: "expense", amount: 320, category: "Food", date: "2026-03-02", notes: "קניות במכולת", currency: "ILS" },
+  { id: "4", type: "expense", amount: 450, category: "Utilities", date: "2026-03-03", notes: "חשבון חשמל", currency: "ILS" },
+  { id: "5", type: "expense", amount: 180, category: "Transportation", date: "2026-03-04", notes: "דלק", currency: "ILS" },
+  { id: "6", type: "expense", amount: 250, category: "Entertainment", date: "2026-03-05", notes: "ארוחה בחוץ", currency: "ILS" },
+  { id: "7", type: "income", amount: 3200, category: "Freelance", date: "2026-03-06", notes: "פרויקט עיצוב", currency: "ILS" },
+  { id: "8", type: "expense", amount: 780, category: "Shopping", date: "2026-03-07", notes: "נעליים חדשות", currency: "ILS" },
+  { id: "9", type: "expense", amount: 200, category: "Health", date: "2026-03-08", notes: "בית מרקחת", currency: "ILS" },
+  { id: "10", type: "expense", amount: 145, category: "Food", date: "2026-03-09", notes: "משלוח", currency: "ILS" },
 ];
 
 const samplePayments: Payment[] = [
-  { id: "p1", name: "Netflix", amount: 15.99, type: "recurring", dueDate: "2026-03-15", category: "Entertainment", currency: "USD", isPaid: false },
-  { id: "p2", name: "Gym Membership", amount: 49.99, type: "recurring", dueDate: "2026-03-20", category: "Health", currency: "USD", isPaid: false },
-  { id: "p3", name: "Car Insurance", amount: 180, type: "recurring", dueDate: "2026-03-25", category: "Transportation", currency: "USD", isPaid: false },
-  { id: "p4", name: "New Laptop", amount: 1299, type: "scheduled", dueDate: "2026-04-01", category: "Shopping", currency: "USD", isPaid: false },
+  { id: "p1", name: "נטפליקס", amount: 49.90, type: "recurring", dueDate: "2026-03-15", category: "Entertainment", currency: "ILS", isPaid: false },
+  { id: "p2", name: "חדר כושר", amount: 189, type: "recurring", dueDate: "2026-03-20", category: "Health", currency: "ILS", isPaid: false },
+  { id: "p3", name: "ביטוח רכב", amount: 650, type: "recurring", dueDate: "2026-03-25", category: "Transportation", currency: "ILS", isPaid: false },
+  { id: "p4", name: "מחשב נייד", amount: 4500, type: "scheduled", dueDate: "2026-04-01", category: "Shopping", currency: "ILS", isPaid: false },
 ];
 
 const sampleBudgets: Budget[] = [
-  { id: "b1", category: "Food", limit: 400, spent: 123, month: "2026-03" },
-  { id: "b2", category: "Transportation", limit: 200, spent: 45, month: "2026-03" },
-  { id: "b3", category: "Entertainment", limit: 150, spent: 65, month: "2026-03" },
-  { id: "b4", category: "Shopping", limit: 300, spent: 210, month: "2026-03" },
+  { id: "b1", category: "Food", limit: 1500, spent: 465, month: "2026-03" },
+  { id: "b2", category: "Transportation", limit: 800, spent: 180, month: "2026-03" },
+  { id: "b3", category: "Entertainment", limit: 600, spent: 250, month: "2026-03" },
+  { id: "b4", category: "Shopping", limit: 1000, spent: 780, month: "2026-03" },
 ];
 
 interface FinanceContextType {
@@ -82,7 +82,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const [transactions, setTransactions] = useState<Transaction[]>(sampleTransactions);
   const [payments, setPayments] = useState<Payment[]>(samplePayments);
   const [budgets, setBudgets] = useState<Budget[]>(sampleBudgets);
-  const [monthlyBudget, setMonthlyBudget] = useState(3000);
+  const [monthlyBudget, setMonthlyBudget] = useState(10000);
 
   const addTransaction = (t: Omit<Transaction, "id">) => {
     setTransactions((prev) => [{ ...t, id: crypto.randomUUID() }, ...prev]);
@@ -106,19 +106,9 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   return (
     <FinanceContext.Provider
       value={{
-        transactions,
-        payments,
-        budgets,
-        categories: CATEGORIES,
-        monthlyBudget,
-        addTransaction,
-        updateTransaction,
-        deleteTransaction,
-        addPayment,
-        updatePayment,
-        deletePayment,
-        setBudgets,
-        setMonthlyBudget,
+        transactions, payments, budgets, categories: CATEGORIES,
+        monthlyBudget, addTransaction, updateTransaction, deleteTransaction,
+        addPayment, updatePayment, deletePayment, setBudgets, setMonthlyBudget,
       }}
     >
       {children}
