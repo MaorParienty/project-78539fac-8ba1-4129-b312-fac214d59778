@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useFinance } from "@/context/FinanceContext";
+import { t, translateCategory } from "@/lib/i18n";
 import {
   Dialog,
   DialogContent,
@@ -22,51 +23,51 @@ export function PaymentDialog({ open, onOpenChange }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addPayment({ name, amount: parseFloat(amount), type, dueDate, category, currency: "USD", isPaid: false });
+    addPayment({ name, amount: parseFloat(amount), type, dueDate, category, currency: "ILS", isPaid: false });
     onOpenChange(false);
     setName(""); setAmount("");
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-card border-border sm:max-w-md">
+      <DialogContent className="bg-card border-border sm:max-w-md" dir="rtl">
         <DialogHeader>
-          <DialogTitle className="font-heading">Add Payment</DialogTitle>
+          <DialogTitle className="font-heading">{t.payments.addPayment}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-xs text-muted-foreground mb-1 block">Name</label>
+            <label className="text-xs text-muted-foreground mb-1 block">{t.payments.name}</label>
             <input required value={name} onChange={(e) => setName(e.target.value)} maxLength={100}
               className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring" />
           </div>
           <div>
-            <label className="text-xs text-muted-foreground mb-1 block">Amount</label>
+            <label className="text-xs text-muted-foreground mb-1 block">{t.transactions.amount}</label>
             <input type="number" step="0.01" min="0" required value={amount} onChange={(e) => setAmount(e.target.value)}
               className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring" placeholder="0.00" />
           </div>
           <div>
-            <label className="text-xs text-muted-foreground mb-1 block">Type</label>
+            <label className="text-xs text-muted-foreground mb-1 block">{t.payments.type}</label>
             <select value={type} onChange={(e) => setType(e.target.value as typeof type)}
               className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring">
-              <option value="recurring">Recurring</option>
-              <option value="one-time">One-time</option>
-              <option value="scheduled">Scheduled</option>
+              <option value="recurring">{t.payments.recurring}</option>
+              <option value="one-time">{t.payments.oneTime}</option>
+              <option value="scheduled">{t.payments.scheduled}</option>
             </select>
           </div>
           <div>
-            <label className="text-xs text-muted-foreground mb-1 block">Due Date</label>
+            <label className="text-xs text-muted-foreground mb-1 block">{t.payments.dueDate}</label>
             <input type="date" required value={dueDate} onChange={(e) => setDueDate(e.target.value)}
               className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring" />
           </div>
           <div>
-            <label className="text-xs text-muted-foreground mb-1 block">Category</label>
+            <label className="text-xs text-muted-foreground mb-1 block">{t.transactions.category}</label>
             <select value={category} onChange={(e) => setCategory(e.target.value)}
               className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring">
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+              {categories.map((c) => <option key={c} value={c}>{translateCategory(c)}</option>)}
             </select>
           </div>
           <button type="submit" className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
-            Add Payment
+            {t.payments.addPayment}
           </button>
         </form>
       </DialogContent>

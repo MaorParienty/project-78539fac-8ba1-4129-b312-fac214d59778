@@ -1,9 +1,10 @@
-@import "@fontsource/manrope/400.css";
-@import "@fontsource/manrope/500.css";
-@import "@fontsource/manrope/600.css";
-@import "@fontsource/manrope/700.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
+@import "@fontsource/heebo/400.css";
+@import "@fontsource/heebo/500.css";
+@import "@fontsource/heebo/600.css";
+@import "@fontsource/heebo/700.css";
+@import "@fontsource/rubik/400.css";
+@import "@fontsource/rubik/500.css";
+@import "@fontsource/rubik/600.css";
 
 @tailwind base;
 @tailwind components;
@@ -11,8 +12,8 @@
 
 @layer base {
   :root {
-    --font-heading: "Manrope", sans-serif;
-    --font-body: "Inter", sans-serif;
+    --font-heading: "Heebo", sans-serif;
+    --font-body: "Rubik", sans-serif;
 
     /* Light mode */
     --background: 0 0% 97%;
@@ -98,6 +99,7 @@
   }
   body {
     @apply bg-background text-foreground font-body antialiased;
+    direction: rtl;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);

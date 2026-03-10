@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown, Wallet, PiggyBank } from "lucide-react";
+import { t, formatCurrency } from "@/lib/i18n";
 
 interface Props {
   balance: number;
@@ -8,14 +9,11 @@ interface Props {
   remaining: number;
 }
 
-const fmt = (n: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
-
 const cards = [
-  { label: "Current Balance", icon: Wallet, key: "balance" as const, colorClass: "text-foreground" },
-  { label: "Monthly Income", icon: TrendingUp, key: "totalIncome" as const, colorClass: "text-chart-income" },
-  { label: "Monthly Expenses", icon: TrendingDown, key: "totalExpenses" as const, colorClass: "text-chart-expense" },
-  { label: "Remaining Budget", icon: PiggyBank, key: "remaining" as const, colorClass: "text-primary" },
+  { label: t.dashboard.currentBalance, icon: Wallet, key: "balance" as const, colorClass: "text-foreground" },
+  { label: t.dashboard.monthlyIncome, icon: TrendingUp, key: "totalIncome" as const, colorClass: "text-chart-income" },
+  { label: t.dashboard.monthlyExpenses, icon: TrendingDown, key: "totalExpenses" as const, colorClass: "text-chart-expense" },
+  { label: t.dashboard.remainingBudget, icon: PiggyBank, key: "remaining" as const, colorClass: "text-primary" },
 ];
 
 export function SummaryCards(props: Props) {
@@ -34,7 +32,7 @@ export function SummaryCards(props: Props) {
             <c.icon className={`h-4 w-4 ${c.colorClass}`} />
           </div>
           <p className={`font-heading text-2xl font-semibold ${c.colorClass}`}>
-            {fmt(props[c.key])}
+            {formatCurrency(props[c.key])}
           </p>
         </motion.div>
       ))}
