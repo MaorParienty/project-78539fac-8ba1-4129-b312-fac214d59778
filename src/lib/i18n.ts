@@ -119,6 +119,31 @@ export const t = {
   // Common
   toggleTheme: "החלף ערכת נושא",
 
+  // Auth
+  auth: {
+    login: "התחבר",
+    signup: "הרשמה",
+    email: "אימייל",
+    password: "סיסמה",
+    loginSubtitle: "התחבר לחשבון שלך",
+    signupSubtitle: "צור חשבון חדש",
+    forgotSubtitle: "נשלח לך קישור לאיפוס סיסמה",
+    forgotPassword: "שכחת סיסמה?",
+    noAccount: "אין לך חשבון?",
+    hasAccount: "כבר יש לך חשבון?",
+    backToLogin: "חזרה להתחברות",
+    sendReset: "שלח קישור איפוס",
+    resetSent: "קישור לאיפוס סיסמה נשלח לאימייל שלך",
+    confirmEmail: "נשלח אימייל אימות. בדוק את תיבת הדואר שלך.",
+    newPassword: "סיסמה חדשה",
+    newPasswordLabel: "הזן סיסמה חדשה",
+    updatePassword: "עדכן סיסמה",
+    passwordUpdated: "הסיסמה עודכנה בהצלחה",
+    invalidResetLink: "קישור איפוס לא תקין",
+    logout: "התנתק",
+    loading: "טוען נתונים...",
+  },
+
   // AI
   ai: {
     title: "יועץ פיננסי AI",

@@ -7,10 +7,12 @@ import {
   Settings,
   Sparkles,
   FileText,
+  LogOut,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { t } from "@/lib/i18n";
+import { useAuth } from "@/context/AuthContext";
 import {
   Sidebar,
   SidebarContent,
@@ -44,6 +46,7 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
+  const { signOut } = useAuth();
 
   const renderItems = (items: typeof mainItems) =>
     items.map((item) => {
@@ -96,7 +99,18 @@ export function AppSidebar() {
 
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>{renderItems(settingsItems)}</SidebarMenu>
+            <SidebarMenu>
+              {renderItems(settingsItems)}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={signOut}
+                  className="hover:bg-destructive/10 transition-colors text-muted-foreground hover:text-destructive"
+                >
+                  <LogOut className="ms-0 me-3 h-4 w-4 shrink-0" />
+                  {!collapsed && <span>{t.auth.logout}</span>}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
