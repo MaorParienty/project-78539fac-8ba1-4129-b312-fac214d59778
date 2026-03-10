@@ -88,7 +88,5 @@ const Payments = () => {
   );
 };
 
-// Need to import this
-import { translateCategory } from "@/lib/i18n";
 
 export default Payments;
