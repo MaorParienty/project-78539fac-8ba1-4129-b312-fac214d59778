@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useFinance, Payment } from "@/context/FinanceContext";
 import { Plus, Trash2, Check, Clock, Calendar, CreditCard } from "lucide-react";
 import { PaymentDialog } from "@/components/payments/PaymentDialog";
-import { t, formatCurrency, formatDateFullHe } from "@/lib/i18n";
+import { t, formatCurrency, formatDateFullHe, translateCategory } from "@/lib/i18n";
 
 const typeIcons = { recurring: Clock, "one-time": CreditCard, scheduled: Calendar };
 const typeLabels: Record<string, string> = {
