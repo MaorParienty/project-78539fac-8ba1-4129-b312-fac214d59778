@@ -99,10 +99,19 @@ export function AppSidebar() {
 
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>{renderItems(settingsItems)}</SidebarMenu>
+            <SidebarMenu>
+              {renderItems(settingsItems)}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={signOut}
+                  className="hover:bg-destructive/10 transition-colors text-muted-foreground hover:text-destructive"
+                >
+                  <LogOut className="ms-0 me-3 h-4 w-4 shrink-0" />
+                  {!collapsed && <span>{t.auth.logout}</span>}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
   );
 }
