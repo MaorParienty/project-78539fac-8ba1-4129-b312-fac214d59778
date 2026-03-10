@@ -1,1 +1,10 @@
 project_id = "jsdfarbmslgdxfqeavjq"
+
+[functions.ai-chat]
+verify_jwt = false
+
+[functions.ai-insights]
+verify_jwt = false
+
+[functions.ai-weekly-report]
+verify_jwt = false
