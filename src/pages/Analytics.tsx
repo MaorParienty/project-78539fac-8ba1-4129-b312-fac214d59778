@@ -1,5 +1,6 @@
 import { useFinance } from "@/context/FinanceContext";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, PieChart, Pie, Cell, LineChart, Line } from "recharts";
+import { t, formatCurrency, translateCategory, hebrewMonths } from "@/lib/i18n";
 
 const COLORS = [
   "hsl(43 56% 52%)", "hsl(142 71% 45%)", "hsl(4 77% 60%)", "hsl(210 60% 50%)",
@@ -17,85 +18,76 @@ const tooltipStyle = {
 const Analytics = () => {
   const { transactions } = useFinance();
 
-  const currentMonth = transactions.filter((t) => t.date.startsWith("2026-03"));
-  const expenses = currentMonth.filter((t) => t.type === "expense");
-  const totalExpenses = expenses.reduce((s, t) => s + t.amount, 0);
+  const currentMonth = transactions.filter((tx) => tx.date.startsWith("2026-03"));
+  const expenses = currentMonth.filter((tx) => tx.type === "expense");
+  const totalExpenses = expenses.reduce((s, tx) => s + tx.amount, 0);
 
-  const byCategory = expenses.reduce<Record<string, number>>((acc, t) => {
-    acc[t.category] = (acc[t.category] || 0) + t.amount;
+  const byCategory = expenses.reduce<Record<string, number>>((acc, tx) => {
+    acc[tx.category] = (acc[tx.category] || 0) + tx.amount;
     return acc;
   }, {});
 
-  const pieData = Object.entries(byCategory)
-    .sort((a, b) => b[1] - a[1])
-    .map(([name, value]) => ({ name, value }));
-
+  const pieData = Object.entries(byCategory).sort((a, b) => b[1] - a[1]).map(([name, value]) => ({ name, value }));
   const largestCategory = pieData[0];
 
-  // Daily spending
-  const dailySpend = expenses.reduce<Record<string, number>>((acc, t) => {
-    const day = t.date.split("-")[2];
-    acc[day] = (acc[day] || 0) + t.amount;
+  const dailySpend = expenses.reduce<Record<string, number>>((acc, tx) => {
+    const day = tx.date.split("-")[2];
+    acc[day] = (acc[day] || 0) + tx.amount;
     return acc;
   }, {});
 
-  const dailyData = Object.entries(dailySpend)
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([day, amount]) => ({ day: `Mar ${parseInt(day)}`, amount }));
+  const dailyData = Object.entries(dailySpend).sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([day, amount]) => ({ day: `${parseInt(day)} מרץ`, amount }));
 
-  // Monthly comparison (mock)
   const monthlyData = [
-    { month: "Jan", income: 5000, expenses: 3200 },
-    { month: "Feb", income: 5200, expenses: 3800 },
-    { month: "Mar", income: 6000, expenses: totalExpenses },
+    { month: hebrewMonths[0], [t.dashboard.income]: 17000, [t.dashboard.expenses]: 11500 },
+    { month: hebrewMonths[1], [t.dashboard.income]: 18500, [t.dashboard.expenses]: 13800 },
+    { month: hebrewMonths[2], [t.dashboard.income]: 21700, [t.dashboard.expenses]: totalExpenses },
   ];
 
   return (
     <div className="space-y-8 max-w-7xl">
       <div>
-        <h1 className="font-heading text-2xl font-semibold text-foreground">Analytics</h1>
-        <p className="text-muted-foreground text-sm mt-1">Spending insights and trends</p>
+        <h1 className="font-heading text-2xl font-semibold text-foreground">{t.analytics.title}</h1>
+        <p className="text-muted-foreground text-sm mt-1">{t.analytics.subtitle}</p>
       </div>
 
-      {/* Insights */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-card border border-border rounded-lg p-5">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Total Spending</p>
-          <p className="font-heading text-xl font-semibold text-chart-expense">${totalExpenses.toFixed(2)}</p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{t.analytics.totalSpending}</p>
+          <p className="font-heading text-xl font-semibold text-chart-expense">{formatCurrency(totalExpenses)}</p>
         </div>
         <div className="bg-card border border-border rounded-lg p-5">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Largest Category</p>
-          <p className="font-heading text-xl font-semibold text-primary">{largestCategory?.name || "—"}</p>
-          <p className="text-xs text-muted-foreground">${largestCategory?.value.toFixed(2) || "0"}</p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{t.analytics.largestCategory}</p>
+          <p className="font-heading text-xl font-semibold text-primary">{largestCategory ? translateCategory(largestCategory.name) : "—"}</p>
+          <p className="text-xs text-muted-foreground">{largestCategory ? formatCurrency(largestCategory.value) : "₪0"}</p>
         </div>
         <div className="bg-card border border-border rounded-lg p-5">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Daily Average</p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{t.analytics.dailyAverage}</p>
           <p className="font-heading text-xl font-semibold text-foreground">
-            ${(totalExpenses / Math.max(Object.keys(dailySpend).length, 1)).toFixed(2)}
+            {formatCurrency(totalExpenses / Math.max(Object.keys(dailySpend).length, 1))}
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Pie */}
         <div className="bg-card border border-border rounded-lg p-5">
-          <h3 className="font-heading text-sm font-semibold text-foreground mb-4">By Category</h3>
-          <div className="h-64">
+          <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.analytics.byCategory}</h3>
+          <div className="h-64" dir="ltr">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} dataKey="value" stroke="none">
                   {pieData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                 </Pie>
-                <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`$${v.toFixed(2)}`, ""]} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`₪${v.toFixed(2)}`, ""]} labelFormatter={(l) => translateCategory(l)} />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Daily */}
         <div className="bg-card border border-border rounded-lg p-5">
-          <h3 className="font-heading text-sm font-semibold text-foreground mb-4">Daily Spending</h3>
-          <div className="h-64">
+          <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.analytics.dailySpending}</h3>
+          <div className="h-64" dir="ltr">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dailyData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(240 2% 18%)" />
@@ -109,18 +101,17 @@ const Analytics = () => {
         </div>
       </div>
 
-      {/* Monthly comparison */}
       <div className="bg-card border border-border rounded-lg p-5">
-        <h3 className="font-heading text-sm font-semibold text-foreground mb-4">Monthly Comparison</h3>
-        <div className="h-64">
+        <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.analytics.monthlyComparison}</h3>
+        <div className="h-64" dir="ltr">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(240 2% 18%)" />
               <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={tooltipStyle} />
-              <Bar dataKey="income" fill="hsl(142 71% 45%)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="expenses" fill="hsl(4 77% 60%)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey={t.dashboard.income} fill="hsl(142 71% 45%)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey={t.dashboard.expenses} fill="hsl(4 77% 60%)" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

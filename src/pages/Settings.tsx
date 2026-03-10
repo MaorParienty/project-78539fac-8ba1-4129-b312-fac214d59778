@@ -1,5 +1,6 @@
 import { useFinance } from "@/context/FinanceContext";
 import { useState } from "react";
+import { t } from "@/lib/i18n";
 
 const Settings = () => {
   const { monthlyBudget, setMonthlyBudget } = useFinance();
@@ -13,12 +14,12 @@ const Settings = () => {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="font-heading text-2xl font-semibold text-foreground">Settings</h1>
-        <p className="text-muted-foreground text-sm mt-1">Manage your preferences</p>
+        <h1 className="font-heading text-2xl font-semibold text-foreground">{t.settings.title}</h1>
+        <p className="text-muted-foreground text-sm mt-1">{t.settings.subtitle}</p>
       </div>
 
       <div className="bg-card border border-border rounded-lg p-5 space-y-4">
-        <h2 className="font-heading text-sm font-semibold text-foreground">Monthly Budget</h2>
+        <h2 className="font-heading text-sm font-semibold text-foreground">{t.settings.monthlyBudget}</h2>
         <div className="flex gap-3">
           <input
             type="number"
@@ -28,27 +29,20 @@ const Settings = () => {
             onChange={(e) => setBudget(e.target.value)}
             className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring"
           />
-          <button
-            onClick={handleSave}
-            className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            Save
+          <button onClick={handleSave} className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
+            {t.settings.save}
           </button>
         </div>
       </div>
 
       <div className="bg-card border border-border rounded-lg p-5 space-y-4">
-        <h2 className="font-heading text-sm font-semibold text-foreground">Account</h2>
-        <p className="text-sm text-muted-foreground">
-          Authentication and data sync will be available when you connect to Lovable Cloud.
-        </p>
+        <h2 className="font-heading text-sm font-semibold text-foreground">{t.settings.account}</h2>
+        <p className="text-sm text-muted-foreground">{t.settings.accountDesc}</p>
       </div>
 
       <div className="bg-card border border-border rounded-lg p-5 space-y-4">
-        <h2 className="font-heading text-sm font-semibold text-foreground">Export Data</h2>
-        <p className="text-sm text-muted-foreground">
-          Export functionality will be available in a future update.
-        </p>
+        <h2 className="font-heading text-sm font-semibold text-foreground">{t.settings.exportData}</h2>
+        <p className="text-sm text-muted-foreground">{t.settings.exportDesc}</p>
       </div>
     </div>
   );
