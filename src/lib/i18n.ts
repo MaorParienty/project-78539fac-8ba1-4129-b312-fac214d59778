@@ -13,6 +13,8 @@ export const t = {
     budgets: "תקציבים",
     analytics: "ניתוח",
     settings: "הגדרות",
+    aiAssistant: "יועץ AI",
+    weeklyReports: "דוחות שבועיים",
   },
 
   // Dashboard
