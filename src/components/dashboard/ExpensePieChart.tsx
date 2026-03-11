@@ -3,9 +3,17 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { t, translateCategory } from "@/lib/i18n";
 
 const COLORS = [
-  "hsl(43 56% 52%)", "hsl(142 71% 45%)", "hsl(4 77% 60%)", "hsl(210 60% 50%)",
+  "hsl(225 65% 52%)", "hsl(160 84% 39%)", "hsl(0 84% 60%)", "hsl(210 60% 50%)",
   "hsl(280 50% 55%)", "hsl(30 80% 55%)", "hsl(180 50% 45%)", "hsl(340 60% 55%)",
 ];
+
+const tooltipStyle = {
+  backgroundColor: "hsl(0 0% 100%)",
+  border: "1px solid hsl(220 13% 91%)",
+  borderRadius: "8px",
+  color: "hsl(220 15% 15%)",
+  fontSize: "12px",
+};
 
 interface Props {
   transactions: Transaction[];
@@ -21,16 +29,16 @@ export function ExpensePieChart({ transactions }: Props) {
   const data = Object.entries(byCategory).map(([name, value]) => ({ name, value }));
 
   return (
-    <div className="bg-card border border-border rounded-lg p-5">
+    <div className="bg-card border border-border rounded-xl p-5">
       <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.dashboard.expenseDistribution}</h3>
-      <div className="h-64">
+      <div className="h-64" dir="ltr">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie data={data} cx="50%" cy="50%" innerRadius={60} outerRadius={90} dataKey="value" stroke="none">
               {data.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
             </Pie>
             <Tooltip
-              contentStyle={{ backgroundColor: "hsl(240 2% 12%)", border: "1px solid hsl(240 2% 18%)", borderRadius: "8px", color: "hsl(240 5% 96%)", fontSize: "12px" }}
+              contentStyle={tooltipStyle}
               formatter={(value: number) => [`₪${value.toFixed(2)}`, ""]}
               labelFormatter={(label) => translateCategory(label)}
             />

@@ -58,7 +58,7 @@ export function AppSidebar() {
               to={item.url}
               end={item.url === "/"}
               className="hover:bg-accent/50 transition-colors"
-              activeClassName="bg-accent text-primary font-medium"
+              activeClassName="bg-primary/10 text-primary font-medium"
             >
               <item.icon className="ms-0 me-3 h-4 w-4 shrink-0" />
               {!collapsed && <span>{item.title}</span>}
@@ -74,8 +74,8 @@ export function AppSidebar() {
         <div className="px-4 mb-6">
           {!collapsed ? (
             <h1 className="font-heading text-lg font-semibold tracking-tight text-foreground">
-              <span className="text-primary">{t.appName}</span>
-              <span className="text-muted-foreground font-normal me-1">{t.appSubtitle}</span>
+              <span className="text-primary">{t.appName}</span>{" "}
+              <span className="text-muted-foreground font-normal">{t.appSubtitle}</span>
             </h1>
           ) : (
             <span className="text-primary font-heading font-bold text-xl block text-center">ק</span>

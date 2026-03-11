@@ -3,23 +3,25 @@ import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGri
 import { t, formatCurrency, translateCategory, hebrewMonths } from "@/lib/i18n";
 
 const COLORS = [
-  "hsl(43 56% 52%)", "hsl(142 71% 45%)", "hsl(4 77% 60%)", "hsl(210 60% 50%)",
+  "hsl(225 65% 52%)", "hsl(160 84% 39%)", "hsl(0 84% 60%)", "hsl(210 60% 50%)",
   "hsl(280 50% 55%)", "hsl(30 80% 55%)", "hsl(180 50% 45%)", "hsl(340 60% 55%)",
 ];
 
 const tooltipStyle = {
-  backgroundColor: "hsl(240 2% 12%)",
-  border: "1px solid hsl(240 2% 18%)",
+  backgroundColor: "hsl(0 0% 100%)",
+  border: "1px solid hsl(220 13% 91%)",
   borderRadius: "8px",
-  color: "hsl(240 5% 96%)",
+  color: "hsl(220 15% 15%)",
   fontSize: "12px",
 };
 
 const Analytics = () => {
   const { transactions } = useFinance();
 
-  const currentMonth = transactions.filter((tx) => tx.date.startsWith("2026-03"));
-  const expenses = currentMonth.filter((tx) => tx.type === "expense");
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const currentMonthTx = transactions.filter((tx) => tx.date.startsWith(currentMonth));
+  const expenses = currentMonthTx.filter((tx) => tx.type === "expense");
   const totalExpenses = expenses.reduce((s, tx) => s + tx.amount, 0);
 
   const byCategory = expenses.reduce<Record<string, number>>((acc, tx) => {
@@ -37,7 +39,7 @@ const Analytics = () => {
   }, {});
 
   const dailyData = Object.entries(dailySpend).sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([day, amount]) => ({ day: `${parseInt(day)} מרץ`, amount }));
+    .map(([day, amount]) => ({ day: `${parseInt(day)}`, amount }));
 
   const monthlyData = [
     { month: hebrewMonths[0], [t.dashboard.income]: 17000, [t.dashboard.expenses]: 11500 },
@@ -48,30 +50,30 @@ const Analytics = () => {
   return (
     <div className="space-y-8 max-w-7xl">
       <div>
-        <h1 className="font-heading text-2xl font-semibold text-foreground">{t.analytics.title}</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground">{t.analytics.title}</h1>
         <p className="text-muted-foreground text-sm mt-1">{t.analytics.subtitle}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-card border border-border rounded-lg p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{t.analytics.totalSpending}</p>
-          <p className="font-heading text-xl font-semibold text-chart-expense">{formatCurrency(totalExpenses)}</p>
+          <p className="font-heading text-xl font-bold text-chart-expense">{formatCurrency(totalExpenses)}</p>
         </div>
-        <div className="bg-card border border-border rounded-lg p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{t.analytics.largestCategory}</p>
-          <p className="font-heading text-xl font-semibold text-primary">{largestCategory ? translateCategory(largestCategory.name) : "—"}</p>
+          <p className="font-heading text-xl font-bold text-primary">{largestCategory ? translateCategory(largestCategory.name) : "—"}</p>
           <p className="text-xs text-muted-foreground">{largestCategory ? formatCurrency(largestCategory.value) : "₪0"}</p>
         </div>
-        <div className="bg-card border border-border rounded-lg p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{t.analytics.dailyAverage}</p>
-          <p className="font-heading text-xl font-semibold text-foreground">
+          <p className="font-heading text-xl font-bold text-foreground">
             {formatCurrency(totalExpenses / Math.max(Object.keys(dailySpend).length, 1))}
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-card border border-border rounded-lg p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.analytics.byCategory}</h3>
           <div className="h-64" dir="ltr">
             <ResponsiveContainer width="100%" height="100%">
@@ -85,33 +87,33 @@ const Analytics = () => {
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-lg p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.analytics.dailySpending}</h3>
           <div className="h-64" dir="ltr">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dailyData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(240 2% 18%)" />
-                <XAxis dataKey="day" tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 13% 91%)" />
+                <XAxis dataKey="day" tick={{ fontSize: 11, fill: "hsl(220 10% 46%)" }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill: "hsl(220 10% 46%)" }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Line type="monotone" dataKey="amount" stroke="hsl(43 56% 52%)" strokeWidth={2} dot={{ r: 3, fill: "hsl(43 56% 52%)" }} />
+                <Line type="monotone" dataKey="amount" stroke="hsl(225 65% 52%)" strokeWidth={2} dot={{ r: 3, fill: "hsl(225 65% 52%)" }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-lg p-5">
+      <div className="bg-card border border-border rounded-xl p-5">
         <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.analytics.monthlyComparison}</h3>
         <div className="h-64" dir="ltr">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(240 2% 18%)" />
-              <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 13% 91%)" />
+              <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(220 10% 46%)" }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: "hsl(220 10% 46%)" }} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={tooltipStyle} />
-              <Bar dataKey={t.dashboard.income} fill="hsl(142 71% 45%)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey={t.dashboard.expenses} fill="hsl(4 77% 60%)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey={t.dashboard.income} fill="hsl(160 84% 39%)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey={t.dashboard.expenses} fill="hsl(0 84% 60%)" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

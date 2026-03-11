@@ -7,7 +7,7 @@ interface Props {
 
 export function RecentTransactions({ transactions }: Props) {
   return (
-    <div className="bg-card border border-border rounded-lg p-5">
+    <div className="bg-card border border-border rounded-xl p-5">
       <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.dashboard.recentTransactions}</h3>
       <div className="space-y-0">
         {transactions.map((tx) => (

@@ -21,19 +21,19 @@ const Payments = () => {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="font-heading text-2xl font-semibold text-foreground">{t.payments.title}</h1>
+          <h1 className="font-heading text-2xl font-bold text-foreground">{t.payments.title}</h1>
           <p className="text-muted-foreground text-sm mt-1">{t.payments.subtitle}</p>
         </div>
-        <button onClick={() => setDialogOpen(true)} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
+        <button onClick={() => setDialogOpen(true)} className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
           <Plus className="h-4 w-4" /> {t.payments.addPayment}
         </button>
       </div>
 
       <div>
         <h2 className="font-heading text-sm font-semibold text-foreground mb-3">{t.payments.upcoming}</h2>
-        <div className="bg-card border border-border rounded-lg divide-y divide-border">
+        <div className="bg-card border border-border rounded-xl divide-y divide-border">
           {upcoming.map((p) => {
             const Icon = typeIcons[p.type];
             return (
@@ -64,7 +64,7 @@ const Payments = () => {
       {paid.length > 0 && (
         <div>
           <h2 className="font-heading text-sm font-semibold text-muted-foreground mb-3">{t.payments.paid}</h2>
-          <div className="bg-card border border-border rounded-lg divide-y divide-border opacity-60">
+          <div className="bg-card border border-border rounded-xl divide-y divide-border opacity-60">
             {paid.map((p) => (
               <div key={p.id} className="flex items-center justify-between p-4">
                 <div>
@@ -87,6 +87,5 @@ const Payments = () => {
     </div>
   );
 };
-
 
 export default Payments;

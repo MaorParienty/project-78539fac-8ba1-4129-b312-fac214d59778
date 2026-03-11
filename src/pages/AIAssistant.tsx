@@ -76,12 +76,11 @@ const AIAssistant = () => {
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)] max-w-4xl">
       <div className="mb-4">
-        <h1 className="font-heading text-2xl font-semibold text-foreground">{t.ai.title}</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground">{t.ai.title}</h1>
         <p className="text-muted-foreground text-sm mt-1">{t.ai.subtitle}</p>
       </div>
 
-      {/* Messages area */}
-      <div className="flex-1 overflow-auto rounded-lg border border-border bg-card p-4 space-y-4 mb-4">
+      <div className="flex-1 overflow-auto rounded-xl border border-border bg-card p-4 space-y-4 mb-4">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -94,7 +93,7 @@ const AIAssistant = () => {
                 <button
                   key={q}
                   onClick={() => sendMessage(q)}
-                  className="text-start text-sm px-3 py-2.5 rounded-md border border-border bg-background hover:bg-accent hover:text-foreground text-muted-foreground transition-colors"
+                  className="text-start text-sm px-3 py-2.5 rounded-lg border border-border bg-background hover:bg-accent hover:text-foreground text-muted-foreground transition-colors"
                 >
                   {q}
                 </button>
@@ -114,13 +113,13 @@ const AIAssistant = () => {
                     <Bot className="h-4 w-4 text-foreground" />
                   )}
                 </div>
-                <div className={`max-w-[80%] rounded-lg px-4 py-3 ${
+                <div className={`max-w-[80%] rounded-xl px-4 py-3 ${
                   msg.role === "user"
-                    ? "bg-primary/10 text-foreground"
+                    ? "bg-primary text-primary-foreground"
                     : "bg-accent text-foreground"
                 }`}>
                   {msg.role === "assistant" ? (
-                    <div className="prose prose-sm dark:prose-invert max-w-none text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+                    <div className="prose prose-sm max-w-none text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
                     </div>
                   ) : (
@@ -134,7 +133,7 @@ const AIAssistant = () => {
                 <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center shrink-0">
                   <Bot className="h-4 w-4 text-foreground" />
                 </div>
-                <div className="bg-accent rounded-lg px-4 py-3">
+                <div className="bg-accent rounded-xl px-4 py-3">
                   <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                 </div>
               </div>
@@ -144,7 +143,6 @@ const AIAssistant = () => {
         )}
       </div>
 
-      {/* Input */}
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           ref={inputRef}
@@ -153,13 +151,13 @@ const AIAssistant = () => {
           onChange={(e) => setInput(e.target.value)}
           placeholder={t.ai.inputPlaceholder}
           disabled={isLoading}
-          className="flex-1 bg-card border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50"
+          className="flex-1 bg-card border border-border rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary disabled:opacity-50 transition-colors"
           maxLength={500}
         />
         <button
           type="submit"
           disabled={!input.trim() || isLoading}
-          className="bg-primary text-primary-foreground p-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="bg-primary text-primary-foreground p-3 rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           <Send className="h-4 w-4" />
         </button>

@@ -18,20 +18,20 @@ const cards = [
 
 export function SummaryCards(props: Props) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {cards.map((c, i) => (
         <motion.div
           key={c.key}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.05, duration: 0.3 }}
-          className="bg-card border border-border rounded-lg p-5"
+          className="bg-card border border-border rounded-xl p-4 sm:p-5"
         >
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{c.label}</span>
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <span className="text-[10px] sm:text-xs text-muted-foreground font-medium uppercase tracking-wider">{c.label}</span>
             <c.icon className={`h-4 w-4 ${c.colorClass}`} />
           </div>
-          <p className={`font-heading text-2xl font-semibold ${c.colorClass}`}>
+          <p className={`font-heading text-lg sm:text-2xl font-bold ${c.colorClass}`}>
             {formatCurrency(props[c.key])}
           </p>
         </motion.div>
