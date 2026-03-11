@@ -15,81 +15,40 @@
     --font-heading: "Heebo", sans-serif;
     --font-body: "Rubik", sans-serif;
 
-    /* Light mode */
-    --background: 0 0% 97%;
-    --foreground: 0 0% 7%;
+    --background: 0 0% 98%;
+    --foreground: 220 15% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 7%;
+    --card-foreground: 220 15% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
-    --primary: 43 56% 52%;
-    --primary-foreground: 0 0% 7%;
-    --secondary: 0 0% 93%;
-    --secondary-foreground: 0 0% 7%;
-    --muted: 0 0% 93%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 0 0% 93%;
-    --accent-foreground: 0 0% 7%;
-    --destructive: 4 77% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --success: 142 71% 45%;
+    --popover-foreground: 220 15% 15%;
+    --primary: 225 65% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 15% 15%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 46%;
+    --accent: 220 14% 96%;
+    --accent-foreground: 220 15% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
-    --gold: 43 56% 52%;
-    --gold-foreground: 0 0% 7%;
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 43 56% 52%;
-    --radius: 0.5rem;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 225 65% 52%;
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 0 0% 7%;
-    --sidebar-primary: 43 56% 52%;
-    --sidebar-primary-foreground: 0 0% 7%;
-    --sidebar-accent: 0 0% 95%;
-    --sidebar-accent-foreground: 0 0% 7%;
-    --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 43 56% 52%;
+    --sidebar-foreground: 220 15% 15%;
+    --sidebar-primary: 225 65% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 220 15% 15%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 225 65% 52%;
 
-    --chart-income: 142 71% 45%;
-    --chart-expense: 4 77% 60%;
-  }
-
-  .dark {
-    --background: 0 0% 7%;
-    --foreground: 240 5% 96%;
-    --card: 240 2% 12%;
-    --card-foreground: 240 5% 96%;
-    --popover: 240 2% 12%;
-    --popover-foreground: 240 5% 96%;
-    --primary: 43 56% 52%;
-    --primary-foreground: 0 0% 7%;
-    --secondary: 240 2% 16%;
-    --secondary-foreground: 240 5% 96%;
-    --muted: 240 2% 16%;
-    --muted-foreground: 0 0% 54%;
-    --accent: 240 2% 16%;
-    --accent-foreground: 240 5% 96%;
-    --destructive: 4 77% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --success: 142 71% 45%;
-    --success-foreground: 0 0% 100%;
-    --gold: 43 56% 52%;
-    --gold-foreground: 0 0% 7%;
-    --border: 240 2% 18%;
-    --input: 240 2% 18%;
-    --ring: 43 56% 52%;
-
-    --sidebar-background: 0 0% 7%;
-    --sidebar-foreground: 240 5% 96%;
-    --sidebar-primary: 43 56% 52%;
-    --sidebar-primary-foreground: 0 0% 7%;
-    --sidebar-accent: 240 2% 14%;
-    --sidebar-accent-foreground: 240 5% 96%;
-    --sidebar-border: 240 2% 16%;
-    --sidebar-ring: 43 56% 52%;
-
-    --chart-income: 142 71% 45%;
-    --chart-expense: 4 77% 60%;
+    --chart-income: 160 84% 39%;
+    --chart-expense: 0 84% 60%;
   }
 }
 

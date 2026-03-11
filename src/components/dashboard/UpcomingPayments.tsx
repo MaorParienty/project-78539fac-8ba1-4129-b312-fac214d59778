@@ -10,7 +10,7 @@ export function UpcomingPayments({ payments }: Props) {
   const sorted = [...payments].sort((a, b) => a.dueDate.localeCompare(b.dueDate));
 
   return (
-    <div className="bg-card border border-border rounded-lg p-5">
+    <div className="bg-card border border-border rounded-xl p-5">
       <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.dashboard.upcomingPayments}</h3>
       <div className="space-y-0">
         {sorted.map((p) => (

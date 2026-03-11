@@ -22,14 +22,14 @@ const Transactions = () => {
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="font-heading text-2xl font-semibold text-foreground">{t.transactions.title}</h1>
+          <h1 className="font-heading text-2xl font-bold text-foreground">{t.transactions.title}</h1>
           <p className="text-muted-foreground text-sm mt-1">{t.transactions.count(filtered.length)}</p>
         </div>
         <button
           onClick={() => { setEditingTransaction(null); setDialogOpen(true); }}
-          className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" /> {t.transactions.addTransaction}
         </button>
@@ -43,10 +43,10 @@ const Transactions = () => {
             placeholder={t.transactions.searchPlaceholder}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-card border border-border rounded-md ps-9 pe-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+            className="w-full bg-card border border-border rounded-lg ps-9 pe-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
           />
         </div>
-        <div className="flex gap-1 bg-card border border-border rounded-md p-1">
+        <div className="flex gap-1 bg-card border border-border rounded-lg p-1">
           {([
             { key: "all" as const, label: t.transactions.all },
             { key: "income" as const, label: t.transactions.income },
@@ -55,8 +55,8 @@ const Transactions = () => {
             <button
               key={key}
               onClick={() => setFilterType(key)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
-                filterType === key ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground"
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                filterType === key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground hover:bg-accent"
               }`}
             >
               {label}
@@ -65,7 +65,34 @@ const Transactions = () => {
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-lg overflow-hidden">
+      {/* Mobile cards */}
+      <div className="sm:hidden space-y-3">
+        {filtered.map((tx) => (
+          <div key={tx.id} className="bg-card border border-border rounded-xl p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs bg-accent text-muted-foreground px-2 py-0.5 rounded-md">{translateCategory(tx.category)}</span>
+              <span className="text-xs text-muted-foreground">{formatDateFullHe(tx.date)}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-foreground">{tx.notes || t.transactions.noDescription}</p>
+              <p className={`font-heading font-bold ${tx.type === "income" ? "text-chart-income" : "text-chart-expense"}`}>
+                {tx.type === "income" ? "+" : "-"}{formatCurrency(tx.amount)}
+              </p>
+            </div>
+            <div className="flex gap-1 justify-end mt-2">
+              <button onClick={() => { setEditingTransaction(tx); setDialogOpen(true); }} className="p-1.5 text-muted-foreground hover:text-foreground transition-colors">
+                <Pencil className="h-3.5 w-3.5" />
+              </button>
+              <button onClick={() => deleteTransaction(tx.id)} className="p-1.5 text-muted-foreground hover:text-destructive transition-colors">
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block bg-card border border-border rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border">
@@ -82,7 +109,7 @@ const Transactions = () => {
                 <td className="px-4 py-3 text-muted-foreground">{formatDateFullHe(tx.date)}</td>
                 <td className="px-4 py-3 text-foreground">{tx.notes || t.transactions.noDescription}</td>
                 <td className="px-4 py-3">
-                  <span className="text-xs bg-accent text-muted-foreground px-2 py-0.5 rounded">{translateCategory(tx.category)}</span>
+                  <span className="text-xs bg-accent text-muted-foreground px-2 py-0.5 rounded-md">{translateCategory(tx.category)}</span>
                 </td>
                 <td className={`px-4 py-3 font-heading font-semibold ${tx.type === "income" ? "text-chart-income" : "text-chart-expense"}`}>
                   {tx.type === "income" ? "+" : "-"}{formatCurrency(tx.amount)}

@@ -6,6 +6,14 @@ interface Props {
   transactions: Transaction[];
 }
 
+const tooltipStyle = {
+  backgroundColor: "hsl(0 0% 100%)",
+  border: "1px solid hsl(220 13% 91%)",
+  borderRadius: "8px",
+  color: "hsl(220 15% 15%)",
+  fontSize: "12px",
+};
+
 export function IncomeExpenseChart({ transactions }: Props) {
   const shortMonths = hebrewMonths.slice(0, 6);
   const monthIndices = ["01", "02", "03", "04", "05", "06"];
@@ -21,17 +29,17 @@ export function IncomeExpenseChart({ transactions }: Props) {
   });
 
   return (
-    <div className="bg-card border border-border rounded-lg p-5">
+    <div className="bg-card border border-border rounded-xl p-5">
       <h3 className="font-heading text-sm font-semibold text-foreground mb-4">{t.dashboard.incomeVsExpenses}</h3>
-      <div className="h-64">
+      <div className="h-64" dir="ltr">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(240 2% 18%)" />
-            <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: "hsl(0 0% 54%)" }} axisLine={false} tickLine={false} />
-            <Tooltip contentStyle={{ backgroundColor: "hsl(240 2% 12%)", border: "1px solid hsl(240 2% 18%)", borderRadius: "8px", color: "hsl(240 5% 96%)", fontSize: "12px" }} />
-            <Line type="monotone" dataKey={t.dashboard.income} stroke="hsl(142 71% 45%)" strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey={t.dashboard.expenses} stroke="hsl(4 77% 60%)" strokeWidth={2} dot={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 13% 91%)" />
+            <XAxis dataKey="month" tick={{ fontSize: 11, fill: "hsl(220 10% 46%)" }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: "hsl(220 10% 46%)" }} axisLine={false} tickLine={false} />
+            <Tooltip contentStyle={tooltipStyle} />
+            <Line type="monotone" dataKey={t.dashboard.income} stroke="hsl(160 84% 39%)" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey={t.dashboard.expenses} stroke="hsl(0 84% 60%)" strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>

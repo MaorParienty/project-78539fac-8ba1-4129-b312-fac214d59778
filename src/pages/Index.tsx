@@ -21,7 +21,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 max-w-7xl">
       <div>
-        <h1 className="font-heading text-2xl font-semibold text-foreground">{t.dashboard.title}</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground">{t.dashboard.title}</h1>
         <p className="text-muted-foreground text-sm mt-1">
           {t.dashboard.subtitle} — {hebrewMonths[now.getMonth()]} {now.getFullYear()}
         </p>

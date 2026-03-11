@@ -92,11 +92,14 @@ export const t = {
   // Settings
   settings: {
     title: "הגדרות",
-    subtitle: "ניהול העדפות",
+    subtitle: "ניהול חשבון והעדפות",
     monthlyBudget: "תקציב חודשי",
     save: "שמור",
+    saved: "נשמר בהצלחה",
+    profile: "פרטי משתמש",
+    displayName: "שם תצוגה",
     account: "חשבון",
-    accountDesc: "אימות וסנכרון נתונים יהיו זמינים בקרוב.",
+    accountDesc: "אימות וסנכרון נתונים.",
     exportData: "ייצוא נתונים",
     exportDesc: "ייצוא נתונים יהיה זמין בעדכון עתידי.",
   },
@@ -115,9 +118,6 @@ export const t = {
     Investment: "השקעות",
     Other: "אחר",
   } as Record<string, string>,
-
-  // Common
-  toggleTheme: "החלף ערכת נושא",
 
   // Auth
   auth: {
@@ -142,6 +142,8 @@ export const t = {
     invalidResetLink: "קישור איפוס לא תקין",
     logout: "התנתק",
     loading: "טוען נתונים...",
+    googleSignIn: "המשך עם Google",
+    orWith: "או עם אימייל",
   },
 
   // AI
@@ -150,7 +152,7 @@ export const t = {
     subtitle: "שאל שאלות על הנתונים הפיננסיים שלך",
     welcome: "שלום! אני היועץ הפיננסי שלך",
     welcomeDesc: "אני יכול לנתח את הנתונים שלך, לזהות דפוסי הוצאות, ולעזור לך לקבל החלטות פיננסיות חכמות יותר.",
-    inputPlaceholder: "שאל שאלה על הפיננסים שלך...",
+    inputPlaceholder: "שאל שאלה...",
     insightsTitle: "תובנות AI",
     refresh: "רענן",
     analyzing: "מנתח...",

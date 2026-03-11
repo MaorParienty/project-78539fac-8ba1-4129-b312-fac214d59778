@@ -49,16 +49,18 @@ export function TransactionDialog({ open, onOpenChange, transaction }: Props) {
     onOpenChange(false);
   };
 
+  const inputClass = "w-full bg-background border border-border rounded-lg px-3 py-2.5 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-card border-border sm:max-w-md" dir="rtl">
+      <DialogContent className="bg-card border-border sm:max-w-md rounded-xl" dir="rtl">
         <DialogHeader>
           <DialogTitle className="font-heading">
             {transaction ? t.transactions.editTransaction : t.transactions.addTransaction}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex gap-1 bg-accent rounded-md p-1">
+          <div className="flex gap-1 bg-accent rounded-lg p-1">
             {([
               { key: "expense" as const, label: t.transactions.expense },
               { key: "income" as const, label: t.transactions.income },
@@ -67,8 +69,8 @@ export function TransactionDialog({ open, onOpenChange, transaction }: Props) {
                 key={item.key}
                 type="button"
                 onClick={() => setType(item.key)}
-                className={`flex-1 py-2 rounded text-sm font-medium transition-colors ${
-                  type === item.key ? "bg-card text-foreground" : "text-muted-foreground"
+                className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${
+                  type === item.key ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
                 }`}
               >
                 {item.label}
@@ -78,27 +80,24 @@ export function TransactionDialog({ open, onOpenChange, transaction }: Props) {
           <div>
             <label className="text-xs text-muted-foreground mb-1 block">{t.transactions.amount}</label>
             <input type="number" step="0.01" min="0" required value={amount} onChange={(e) => setAmount(e.target.value)}
-              className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring" placeholder="0.00" />
+              className={inputClass} placeholder="0.00" />
           </div>
           <div>
             <label className="text-xs text-muted-foreground mb-1 block">{t.transactions.category}</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)}
-              className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring">
+            <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputClass}>
               {categories.map((c) => <option key={c} value={c}>{translateCategory(c)}</option>)}
             </select>
           </div>
           <div>
             <label className="text-xs text-muted-foreground mb-1 block">{t.transactions.date}</label>
-            <input type="date" required value={date} onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring" />
+            <input type="date" required value={date} onChange={(e) => setDate(e.target.value)} className={inputClass} />
           </div>
           <div>
             <label className="text-xs text-muted-foreground mb-1 block">{t.transactions.notes}</label>
             <input type="text" value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={200}
-              className="w-full bg-background border border-border rounded-md px-3 py-2 text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-ring"
-              placeholder={t.transactions.optionalNotes} />
+              className={inputClass} placeholder={t.transactions.optionalNotes} />
           </div>
-          <button type="submit" className="w-full bg-primary text-primary-foreground py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
+          <button type="submit" className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
             {transaction ? t.transactions.update : t.transactions.add} {t.transactions.title.slice(0, -2) + "ה"}
           </button>
         </form>
