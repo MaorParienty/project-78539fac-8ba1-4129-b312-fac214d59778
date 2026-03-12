@@ -74,6 +74,27 @@ export type Database = {
         }
         Relationships: []
       }
+      exchange_rates: {
+        Row: {
+          currency_code: string
+          id: string
+          last_updated: string
+          rate_to_ils: number
+        }
+        Insert: {
+          currency_code: string
+          id?: string
+          last_updated?: string
+          rate_to_ils: number
+        }
+        Update: {
+          currency_code?: string
+          id?: string
+          last_updated?: string
+          rate_to_ils?: number
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
@@ -149,6 +170,62 @@ export type Database = {
         }
         Relationships: []
       }
+      shared_account_members: {
+        Row: {
+          account_id: string
+          id: string
+          joined_at: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          account_id: string
+          id?: string
+          joined_at?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string
+          id?: string
+          joined_at?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shared_account_members_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "shared_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shared_accounts: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          invite_code: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          invite_code?: string
+          name?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          invite_code?: string
+          name?: string
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number
@@ -193,7 +270,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_access_user_data: {
+        Args: { _data_owner_id: string; _requester_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

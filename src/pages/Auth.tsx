@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { lovable } from "@/integrations/lovable/index";
 import { t } from "@/lib/i18n";
 import { toast } from "sonner";
+import { Wallet } from "lucide-react";
 
 const Auth = () => {
   const { user, loading, signIn, signUp, resetPassword } = useAuth();
@@ -52,27 +53,33 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4" dir="rtl">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="text-center">
-          <h1 className="font-heading text-2xl font-bold text-foreground">
-            <span className="text-primary">קנסו</span>{" "}
-            <span className="text-muted-foreground font-normal">פיננסים</span>
-          </h1>
-          <p className="text-muted-foreground text-sm mt-2">
-            {mode === "login" ? t.auth.loginSubtitle : mode === "signup" ? t.auth.signupSubtitle : t.auth.forgotSubtitle}
-          </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-secondary px-4" dir="rtl">
+      <div className="w-full max-w-sm space-y-8">
+        {/* Logo */}
+        <div className="text-center space-y-3">
+          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+            <Wallet className="h-8 w-8 text-primary" />
+          </div>
+          <div>
+            <h1 className="font-heading text-3xl font-bold text-foreground">
+              <span className="text-primary">קנסו</span>{" "}
+              <span className="text-muted-foreground font-normal text-xl">פיננסים</span>
+            </h1>
+            <p className="text-muted-foreground text-sm mt-2">
+              {mode === "login" ? t.auth.loginSubtitle : mode === "signup" ? t.auth.signupSubtitle : t.auth.forgotSubtitle}
+            </p>
+          </div>
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-6 space-y-5 shadow-sm">
+        <div className="bg-card border border-border rounded-2xl p-6 sm:p-8 space-y-6">
           {/* Google Sign In */}
           {mode !== "forgot" && (
             <>
               <button
                 onClick={handleGoogleSignIn}
-                className="w-full flex items-center justify-center gap-3 bg-background border border-border py-2.5 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors"
+                className="w-full flex items-center justify-center gap-3 bg-background border border-border py-3 rounded-xl text-sm font-medium text-foreground hover:bg-accent transition-all hover:border-primary/30"
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
                   <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
                   <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
@@ -97,7 +104,7 @@ const Auth = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                className="w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                 placeholder="email@example.com"
               />
             </div>
@@ -111,7 +118,7 @@ const Auth = () => {
                   minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                  className="w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -120,7 +127,7 @@ const Auth = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-primary text-primary-foreground py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
+              className="w-full bg-primary text-primary-foreground py-3 rounded-xl text-sm font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 mt-2"
             >
               {submitting
                 ? "..."

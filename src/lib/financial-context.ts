@@ -15,7 +15,6 @@ export function buildFinancialContext(
   const totalIncome = income.reduce((s, t) => s + t.amount, 0);
   const totalExpenses = expenses.reduce((s, t) => s + t.amount, 0);
 
-  // Category breakdown
   const byCategory = expenses.reduce<Record<string, number>>((acc, t) => {
     acc[t.category] = (acc[t.category] || 0) + t.amount;
     return acc;
@@ -26,21 +25,18 @@ export function buildFinancialContext(
     .map(([cat, amt]) => `  - ${translateCategory(cat)}: ₪${amt.toFixed(2)}`)
     .join("\n");
 
-  // Recent transactions
   const recentTx = monthTx
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 15)
     .map((t) => `  - ${t.date} | ${t.type === "income" ? "הכנסה" : "הוצאה"} | ${translateCategory(t.category)} | ₪${t.amount} | ${t.notes || ""}`)
     .join("\n");
 
-  // Payments
   const upcomingPayments = payments
     .filter((p) => !p.isPaid)
     .sort((a, b) => a.dueDate.localeCompare(b.dueDate))
     .map((p) => `  - ${p.name}: ₪${p.amount} (${p.type === "recurring" ? "חוזר" : p.type === "one-time" ? "חד פעמי" : "מתוכנן"}) - ${p.dueDate}`)
     .join("\n");
 
-  // Budgets
   const budgetStatus = budgets
     .map((b) => {
       const pct = ((b.spent / b.limit) * 100).toFixed(0);
@@ -55,7 +51,6 @@ export function buildFinancialContext(
 סה"כ הכנסות החודש: ₪${totalIncome}
 סה"כ הוצאות החודש: ₪${totalExpenses}
 יתרה: ₪${(totalIncome - totalExpenses).toFixed(2)}
-תקציב נותר: ₪${(monthlyBudget - totalExpenses).toFixed(2)}
 
 פילוח הוצאות לפי קטגוריה:
 ${categoryBreakdown}

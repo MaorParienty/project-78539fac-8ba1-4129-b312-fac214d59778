@@ -8,7 +8,7 @@ import { AIInsightsCard } from "@/components/dashboard/AIInsightsCard";
 import { t, hebrewMonths } from "@/lib/i18n";
 
 const Dashboard = () => {
-  const { transactions, payments, monthlyBudget } = useFinance();
+  const { transactions, payments } = useFinance();
 
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -16,7 +16,6 @@ const Dashboard = () => {
   const totalIncome = monthTransactions.filter((tx) => tx.type === "income").reduce((s, tx) => s + tx.amount, 0);
   const totalExpenses = monthTransactions.filter((tx) => tx.type === "expense").reduce((s, tx) => s + tx.amount, 0);
   const balance = totalIncome - totalExpenses;
-  const remaining = monthlyBudget - totalExpenses;
 
   return (
     <div className="space-y-8 max-w-7xl">
@@ -27,7 +26,7 @@ const Dashboard = () => {
         </p>
       </div>
 
-      <SummaryCards balance={balance} totalIncome={totalIncome} totalExpenses={totalExpenses} remaining={remaining} />
+      <SummaryCards balance={balance} totalIncome={totalIncome} totalExpenses={totalExpenses} />
 
       <AIInsightsCard />
 

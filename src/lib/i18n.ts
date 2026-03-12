@@ -1,11 +1,9 @@
 // Hebrew translations and locale utilities
 
 export const t = {
-  // App
   appName: "קנסו",
   appSubtitle: "פיננסים",
 
-  // Navigation
   nav: {
     dashboard: "לוח בקרה",
     transactions: "תנועות",
@@ -17,14 +15,12 @@ export const t = {
     weeklyReports: "דוחות שבועיים",
   },
 
-  // Dashboard
   dashboard: {
     title: "לוח בקרה",
     subtitle: "סקירה חודשית",
     currentBalance: "יתרה נוכחית",
     monthlyIncome: "הכנסה חודשית",
     monthlyExpenses: "הוצאות חודשיות",
-    remainingBudget: "תקציב נותר",
     expenseDistribution: "התפלגות הוצאות",
     incomeVsExpenses: "הכנסות מול הוצאות",
     recentTransactions: "תנועות אחרונות",
@@ -33,7 +29,6 @@ export const t = {
     expenses: "הוצאות",
   },
 
-  // Transactions
   transactions: {
     title: "תנועות",
     count: (n: number) => `${n} תנועות`,
@@ -54,7 +49,6 @@ export const t = {
     noDescription: "—",
   },
 
-  // Payments
   payments: {
     title: "תשלומים",
     subtitle: "ניהול תשלומים חוזרים ומתוכננים",
@@ -70,14 +64,12 @@ export const t = {
     scheduled: "מתוכנן",
   },
 
-  // Budgets
   budgets: {
     title: "תקציבים",
     overallBudget: "תקציב כולל",
     warning: (pct: number) => `⚠ השתמשת ב-${pct}% מהתקציב החודשי`,
   },
 
-  // Analytics
   analytics: {
     title: "ניתוח",
     subtitle: "תובנות ומגמות הוצאות",
@@ -89,7 +81,6 @@ export const t = {
     monthlyComparison: "השוואה חודשית",
   },
 
-  // Settings
   settings: {
     title: "הגדרות",
     subtitle: "ניהול חשבון והעדפות",
@@ -102,9 +93,29 @@ export const t = {
     accountDesc: "אימות וסנכרון נתונים.",
     exportData: "ייצוא נתונים",
     exportDesc: "ייצוא נתונים יהיה זמין בעדכון עתידי.",
+    sharedAccount: "חשבון משותף",
+    sharedAccountDesc: "שתף את הנתונים הפיננסיים שלך עם משתמש נוסף",
+    createShared: "צור חשבון משותף",
+    joinShared: "הצטרף לחשבון משותף",
+    inviteCode: "קוד הזמנה",
+    joinByCode: "הצטרף באמצעות קוד",
+    joinByEmail: "הזמנה באימייל",
+    emailInvite: "אימייל להזמנה",
+    sendInvite: "שלח הזמנה",
+    yourCode: "הקוד שלך",
+    copyCode: "העתק קוד",
+    codeCopied: "הקוד הועתק",
+    leaveShared: "עזוב חשבון משותף",
+    deleteShared: "מחק חשבון משותף",
+    sharedWith: "משותף עם",
+    noSharedAccount: "אין חשבון משותף פעיל",
+    accountCreated: "חשבון משותף נוצר בהצלחה",
+    joinedAccount: "הצטרפת לחשבון משותף בהצלחה",
+    leftAccount: "עזבת את החשבון המשותף",
+    deletedAccount: "החשבון המשותף נמחק",
+    invalidCode: "קוד הזמנה לא תקין",
   },
 
-  // Categories
   categories: {
     Food: "אוכל",
     Housing: "דיור",
@@ -119,7 +130,6 @@ export const t = {
     Other: "אחר",
   } as Record<string, string>,
 
-  // Auth
   auth: {
     login: "התחבר",
     signup: "הרשמה",
@@ -146,7 +156,6 @@ export const t = {
     orWith: "או עם אימייל",
   },
 
-  // AI
   ai: {
     title: "יועץ פיננסי AI",
     subtitle: "שאל שאלות על הנתונים הפיננסיים שלך",
@@ -167,18 +176,26 @@ export const t = {
     noReportDesc: "לחץ על הכפתור למטה כדי ליצור דוח שבועי מותאם אישית המבוסס על הנתונים הפיננסיים שלך.",
     weeklyInsightsTitle: "תובנות שבועיות",
   },
+
+  currency: {
+    conversion: "המרת מטבעות",
+    originalAmount: "סכום מקורי",
+    convertedAmount: "סכום ב-₪",
+    lastUpdated: "עודכן לאחרונה",
+    usd: "דולר אמריקאי",
+    eur: "אירו",
+    gbp: "לירה שטרלינג",
+  },
 };
 
-// Format currency in ILS
-export const formatCurrency = (amount: number): string => {
+export const formatCurrency = (amount: number, currency = "ILS"): string => {
   return new Intl.NumberFormat("he-IL", {
     style: "currency",
-    currency: "ILS",
+    currency,
     minimumFractionDigits: 2,
   }).format(amount);
 };
 
-// Format date in Hebrew
 export const formatDateHe = (dateStr: string): string => {
   const date = new Date(dateStr);
   return new Intl.DateTimeFormat("he-IL", {
@@ -196,13 +213,11 @@ export const formatDateFullHe = (dateStr: string): string => {
   }).format(date);
 };
 
-// Hebrew month names
 export const hebrewMonths = [
   "ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
   "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר",
 ];
 
-// Translate category name
 export const translateCategory = (cat: string): string => {
   return t.categories[cat] || cat;
 };
