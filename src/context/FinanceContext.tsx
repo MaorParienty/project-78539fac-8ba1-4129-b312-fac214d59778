@@ -55,6 +55,41 @@ interface FinanceContextType {
 
 const FinanceContext = createContext<FinanceContextType | null>(null);
 
+function mapTransaction(r: any): Transaction {
+  return {
+    id: r.id,
+    type: r.type as TransactionType,
+    amount: Number(r.amount),
+    category: r.category,
+    date: r.date,
+    notes: r.notes ?? undefined,
+    currency: r.currency,
+  };
+}
+
+function mapPayment(r: any): Payment {
+  return {
+    id: r.id,
+    name: r.name,
+    amount: Number(r.amount),
+    type: r.type as Payment["type"],
+    dueDate: r.due_date,
+    category: r.category,
+    currency: r.currency,
+    isPaid: r.is_paid,
+  };
+}
+
+function mapBudget(r: any): Budget {
+  return {
+    id: r.id,
+    category: r.category,
+    limit: Number(r.budget_limit),
+    spent: Number(r.spent),
+    month: r.month,
+  };
+}
+
 export function FinanceProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -65,7 +100,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   const userId = user?.id;
 
-  // Load data from Supabase
+  // Load data from database
   useEffect(() => {
     if (!userId) return;
 
@@ -78,44 +113,10 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
         supabase.from("profiles").select("*").eq("user_id", userId).single(),
       ]);
 
-      if (txRes.data) {
-        setTransactions(txRes.data.map((r) => ({
-          id: r.id,
-          type: r.type as TransactionType,
-          amount: Number(r.amount),
-          category: r.category,
-          date: r.date,
-          notes: r.notes ?? undefined,
-          currency: r.currency,
-        })));
-      }
-
-      if (payRes.data) {
-        setPayments(payRes.data.map((r) => ({
-          id: r.id,
-          name: r.name,
-          amount: Number(r.amount),
-          type: r.type as Payment["type"],
-          dueDate: r.due_date,
-          category: r.category,
-          currency: r.currency,
-          isPaid: r.is_paid,
-        })));
-      }
-
-      if (budRes.data) {
-        setBudgetsState(budRes.data.map((r) => ({
-          id: r.id,
-          category: r.category,
-          limit: Number(r.budget_limit),
-          spent: Number(r.spent),
-          month: r.month,
-        })));
-      }
-
-      if (profRes.data) {
-        setMonthlyBudgetState(Number(profRes.data.monthly_budget));
-      }
+      if (txRes.data) setTransactions(txRes.data.map(mapTransaction));
+      if (payRes.data) setPayments(payRes.data.map(mapPayment));
+      if (budRes.data) setBudgetsState(budRes.data.map(mapBudget));
+      if (profRes.data) setMonthlyBudgetState(Number(profRes.data.monthly_budget));
 
       setLoading(false);
     };
@@ -123,24 +124,63 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     loadData();
   }, [userId]);
 
+  // Realtime subscriptions for shared account sync
+  useEffect(() => {
+    if (!userId) return;
+
+    const channel = supabase
+      .channel("finance-realtime")
+      .on("postgres_changes", { event: "*", schema: "public", table: "transactions" }, (payload) => {
+        if (payload.eventType === "INSERT") {
+          setTransactions((prev) => {
+            if (prev.some((t) => t.id === (payload.new as any).id)) return prev;
+            return [mapTransaction(payload.new), ...prev];
+          });
+        } else if (payload.eventType === "UPDATE") {
+          setTransactions((prev) => prev.map((t) => t.id === (payload.new as any).id ? mapTransaction(payload.new) : t));
+        } else if (payload.eventType === "DELETE") {
+          setTransactions((prev) => prev.filter((t) => t.id !== (payload.old as any).id));
+        }
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "payments" }, (payload) => {
+        if (payload.eventType === "INSERT") {
+          setPayments((prev) => {
+            if (prev.some((p) => p.id === (payload.new as any).id)) return prev;
+            return [mapPayment(payload.new), ...prev];
+          });
+        } else if (payload.eventType === "UPDATE") {
+          setPayments((prev) => prev.map((p) => p.id === (payload.new as any).id ? mapPayment(payload.new) : p));
+        } else if (payload.eventType === "DELETE") {
+          setPayments((prev) => prev.filter((p) => p.id !== (payload.old as any).id));
+        }
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "budgets" }, (payload) => {
+        if (payload.eventType === "INSERT") {
+          setBudgetsState((prev) => {
+            if (prev.some((b) => b.id === (payload.new as any).id)) return prev;
+            return [...prev, mapBudget(payload.new)];
+          });
+        } else if (payload.eventType === "UPDATE") {
+          setBudgetsState((prev) => prev.map((b) => b.id === (payload.new as any).id ? mapBudget(payload.new) : b));
+        } else if (payload.eventType === "DELETE") {
+          setBudgetsState((prev) => prev.filter((b) => b.id !== (payload.old as any).id));
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [userId]);
+
   const addTransaction = useCallback(async (t: Omit<Transaction, "id">) => {
     if (!userId) return;
     const { data, error } = await supabase.from("transactions").insert({
-      user_id: userId,
-      type: t.type,
-      amount: t.amount,
-      category: t.category,
-      date: t.date,
-      notes: t.notes || null,
-      currency: t.currency,
+      user_id: userId, type: t.type, amount: t.amount, category: t.category,
+      date: t.date, notes: t.notes || null, currency: t.currency,
     }).select().single();
     if (error) { toast.error(error.message); return; }
-    if (data) {
-      setTransactions((prev) => [{
-        id: data.id, type: data.type as TransactionType, amount: Number(data.amount),
-        category: data.category, date: data.date, notes: data.notes ?? undefined, currency: data.currency,
-      }, ...prev]);
-    }
+    if (data) setTransactions((prev) => [mapTransaction(data), ...prev]);
   }, [userId]);
 
   const updateTransaction = useCallback(async (t: Transaction) => {
@@ -165,13 +205,7 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
       due_date: p.dueDate, category: p.category, currency: p.currency, is_paid: p.isPaid,
     }).select().single();
     if (error) { toast.error(error.message); return; }
-    if (data) {
-      setPayments((prev) => [{
-        id: data.id, name: data.name, amount: Number(data.amount),
-        type: data.type as Payment["type"], dueDate: data.due_date,
-        category: data.category, currency: data.currency, isPaid: data.is_paid,
-      }, ...prev]);
-    }
+    if (data) setPayments((prev) => [mapPayment(data), ...prev]);
   }, [userId]);
 
   const updatePayment = useCallback(async (p: Payment) => {
